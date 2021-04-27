@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/firebase_database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:roubou/screen/setting/themes.dart';
 
 /// Run first apps open
@@ -149,33 +149,6 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 }
 
-
-
-
-
-/*
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(MyApp());
-}
-*/
-/*
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Stock',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'PVSRA Stock Screener'),
-    );
-  }
-}
-*/
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
   final String title;
@@ -185,8 +158,86 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final dbRef = FirebaseDatabase.instance.reference().child("Stocks");
-  var lists = [];
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('PVSRA Stock Screener')),
+      body: _buildBody(context),
+    );
+  }
+
+  Widget _buildBody(BuildContext context) {
+    // return _buildList(context, dummySnapshot);
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance.collection('stocks').snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return LinearProgressIndicator();
+
+        return _buildList(context, snapshot.data.docs);
+      },
+    );
+  }
+
+  Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
+    return ListView(
+      padding: const EdgeInsets.only(top: 20.0),
+      children: snapshot.map((data) => _buildListItem(context, data)).toList(),
+    );
+  }
+
+  Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
+    final record = Record.fromSnapshot(data);
+
+    return Padding(
+      key: ValueKey(record.name),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+        child: ListTile(
+          title: Text(record.name),
+          trailing: Text(record.votes.toString()),
+          onTap: () => FirebaseFirestore.instance.runTransaction((transaction) async {
+            final freshSnapshot = await transaction.get(record.reference);
+            final fresh = Record.fromSnapshot(freshSnapshot);
+
+            //await transaction
+           //     .update(record.reference, {'votes': fresh.votes + 1});
+          }),
+        ),
+      ),
+    );
+  }
+}
+
+class Record {
+  final String stock;
+
+  //final int votes;
+  final DocumentReference reference;
+
+  Record.fromMap(Map<String, dynamic> map, {this.reference})
+      : assert(map['Stock'] != null),
+  //  assert(map['votes'] != null),
+        stock = map['Stock'];
+
+  //  votes = map['votes'];
+
+  Record.fromSnapshot(DocumentSnapshot snapshot)
+      : this.fromMap(snapshot.data(), reference: snapshot.reference);
+}
+ // @override
+ // String toString() => "Record<$name:$votes>";
+
+
+
+
+/*
+class _MyHomePageState extends State<MyHomePage> {
+ // final dbRef = FirebaseDatabase.instance.reference().child("Stocks");
+ // var lists = [];
 
   @override
   Widget build(BuildContext context) {
@@ -223,8 +274,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Text("Stock:" + lists[index]['Stock']),
-                                     // Text("RS_Rating: "+ lists[index]["RS_Rating"]),
-                                     // Text("200 Day EMA: " +lists[index]["200 Day EMA"]),
+
                                     ],
                                   ),
                                 );
@@ -237,7 +287,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-
-
-
+*/
