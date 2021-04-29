@@ -198,7 +198,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         child: ListTile(
           title: Text(record.stock),
-          trailing: Text(record.stock.toString()),
+          trailing: Text(record.companyName.toString()),
           onTap: () => FirebaseFirestore.instance.runTransaction((transaction) async {
             final freshSnapshot = await transaction.get(record.reference);
             final fresh = Record.fromSnapshot(freshSnapshot);
@@ -214,15 +214,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
 class Record {
   final String stock;
+  final String companyName;
 
   //final int votes;
   final DocumentReference reference;
 
   Record.fromMap(Map<String, dynamic> map, {this.reference})
       : assert(map['Stock'] != null),
+        assert(map['companyName'] != null),
   //  assert(map['votes'] != null),
-        stock = map['Stock'];
-
+        stock = map['Stock'],
+        companyName = map['companyName'];
   //  votes = map['votes'];
 
   Record.fromSnapshot(DocumentSnapshot snapshot)
