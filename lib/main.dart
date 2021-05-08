@@ -4,32 +4,36 @@ import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:roubou/screen/setting/themes.dart';
-
+import 'package:roubou/my_drawer.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// Run first apps open
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(myApp());
+  runApp(ProviderScope(child: MyApp()),
+  );
 }
 
-class myApp extends StatefulWidget {
-  final Widget child;
+final hellowWorldProvider = Provider<String>((ref) => "Hello world");
 
-  myApp({Key key, this.child}) : super(key: key);
+class MyApp extends StatelessWidget {
+ // final Widget child;
 
-  _myAppState createState() => _myAppState();
-}
+ // MyApp({Key key, this.child}) : super(key: key);
 
-class _myAppState extends State<myApp> {
+ // _MyAppState createState() => _MyAppState();
+//}
+
+//class _MyAppState extends State<MyApp> {
   /// Create _themeBloc for double theme (Dark and White theme)
-  ThemeBloc _themeBloc;
+  ThemeBloc _themeBloc= ThemeBloc();
 
-  @override
-  void initState() {
+  //@override
+ // void initState() {
     // TODO: implement initState
-    super.initState();
-    _themeBloc = ThemeBloc();
-  }
+    //super.initState();
+ //   _themeBloc = ThemeBloc();
+ // }
 
   @override
   Widget build(BuildContext context) {
@@ -48,16 +52,14 @@ class _myAppState extends State<myApp> {
           title: 'Crypto Apps',
           theme: snapshot.data,
           debugShowCheckedModeBanner: false,
-          home: SplashScreen(
-            themeBloc: _themeBloc,
-          ),
+          home: MyHomePage(),
 
           /// Move splash screen to onBoarding Layout
           /// Routes
           ///
           routes: <String, WidgetBuilder>{
             "myHomePage": (BuildContext context) =>
-                MyHomePage(title: 'PVSRA Stock Screener')
+                MyHomePage()
           },
         );
       },
@@ -65,9 +67,11 @@ class _myAppState extends State<myApp> {
   }
 }
 
+
+/*
 /// Component UI
 class SplashScreen extends StatefulWidget {
-  ThemeBloc themeBloc;
+  final ThemeBloc themeBloc;
   SplashScreen({this.themeBloc});
   @override
   _SplashScreenState createState() => _SplashScreenState(themeBloc);
@@ -77,15 +81,15 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   ThemeBloc themeBloc;
   _SplashScreenState(this.themeBloc);
-  @override
+  //@override
 
   /// Setting duration in splash screen
   startTime() async {
-    return new Timer(Duration(milliseconds: 4500), NavigatorPage);
+    return new Timer(Duration(milliseconds: 4500), navigatorPage);
   }
 
   /// To navigate layout change
-  void NavigatorPage() {
+  void navigatorPage() {
     Navigator.of(context).pushReplacementNamed("myHomePage");
   }
 
@@ -104,7 +108,7 @@ class _SplashScreenState extends State<SplashScreen> {
         /// Set Background image in splash screen layout (Click to open code)
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('assets/image/splash_screen.png'),
+                image: AssetImage('assets/image/launch_screen.png'),
                 fit: BoxFit.cover)),
         child: Container(
           /// Set gradient black in image splash screen (Click to open code)
@@ -148,40 +152,33 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 }
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-  final String title;
+*/
+class MyHomePage extends ConsumerWidget {
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
+    String text = watch(hellowWorldProvider);
     return Scaffold(
-      appBar: AppBar(title: Text('PVSRA Stock Screener')),
+      appBar: AppBar(title: Text(text)),
+      drawer: MyDrawer(),
       body: _buildBody(context),
     );
   }
 
   Widget _buildBody(BuildContext context) {
-    // return _buildList(context, dummySnapshot);
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('stocks').snapshots(),
+      stream: FirebaseFirestore.instance.collection('200ema').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
-
-        return _buildList(context, snapshot.data.docs);
+          return _buildList(context, snapshot.data?.docs);
       },
     );
   }
 
-  Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
+  Widget _buildList(BuildContext context, List<DocumentSnapshot>? snapshot) {
     return ListView(
       padding: const EdgeInsets.only(top: 20.0),
-      children: snapshot.map((data) => _buildListItem(context, data)).toList(),
+      children: snapshot!=null?snapshot.map((data) => _buildListItem(context, data)).toList():[Text("")],
     );
   }
 
@@ -219,7 +216,7 @@ class Record {
   //final int votes;
   final DocumentReference reference;
 
-  Record.fromMap(Map<String, dynamic> map, {this.reference})
+  Record.fromMap(Map<String, dynamic> map, {required this.reference})
       : assert(map['Stock'] != null),
         assert(map['companyName'] != null),
   //  assert(map['votes'] != null),
@@ -230,63 +227,3 @@ class Record {
   Record.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data(), reference: snapshot.reference);
 }
- // @override
- // String toString() => "Record<$name:$votes>";
-
-
-
-
-/*
-class _MyHomePageState extends State<MyHomePage> {
- // final dbRef = FirebaseDatabase.instance.reference().child("Stocks");
- // var lists = [];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-          child: SingleChildScrollView(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text("Stock Screener",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w200,
-                          fontSize: 30,
-                          fontFamily: 'Roboto',
-                          fontStyle: FontStyle.italic)),
-                  FutureBuilder(
-                      future: dbRef.once(),
-                      builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
-                        if (snapshot.hasData) {
-                          lists.clear();
-                          Map<dynamic, dynamic> values = snapshot.data.value;
-                          values.forEach((key, values) {
-                            lists.add(values);
-                          });
-                          return new ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: lists.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Card(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text("Stock:" + lists[index]['Stock']),
-
-                                    ],
-                                  ),
-                                );
-                              });
-                        }
-                        return CircularProgressIndicator();
-                      })
-                ]),
-          )),
-    );
-  }
-}
-*/
