@@ -182,7 +182,7 @@ class MyHomePage extends ConsumerWidget {
     );
   }
 
-  Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
+  Widget _buildListItem(BuildContext context, DocumentSnapshot? data) {
     final record = Record.fromSnapshot(data);
 
     return Padding(
@@ -197,8 +197,8 @@ class MyHomePage extends ConsumerWidget {
           title: Text(record.stock),
           trailing: Text(record.companyName.toString()),
           onTap: () => FirebaseFirestore.instance.runTransaction((transaction) async {
-            final freshSnapshot = await transaction.get(record.reference);
-            final fresh = Record.fromSnapshot(freshSnapshot);
+          //  final freshSnapshot = await transaction.get(record.reference);
+          //  final fresh = Record.fromSnapshot(freshSnapshot);
 
             //await transaction
            //     .update(record.reference, {'votes': fresh.votes + 1});
@@ -214,16 +214,16 @@ class Record {
   final String companyName;
 
   //final int votes;
-  final DocumentReference reference;
+  final DocumentReference? reference;
 
-  Record.fromMap(Map<String, dynamic> map, {required this.reference})
-      : assert(map['Stock'] != null),
-        assert(map['companyName'] != null),
+  Record.fromMap(Map<String, dynamic>? map, {required this.reference})
+      : assert(map?['Stock'] != null),
+        assert(map?['companyName'] != null),
   //  assert(map['votes'] != null),
-        stock = map['Stock'],
-        companyName = map['companyName'];
+        stock = map?['Stock'],
+        companyName = map?['companyName'];
   //  votes = map['votes'];
 
-  Record.fromSnapshot(DocumentSnapshot snapshot)
-      : this.fromMap(snapshot.data(), reference: snapshot.reference);
+  Record.fromSnapshot(DocumentSnapshot? snapshot)
+      : this.fromMap(snapshot?.data(), reference: snapshot?.reference);
 }
