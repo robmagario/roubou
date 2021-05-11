@@ -14,7 +14,7 @@ void main() async {
   );
 }
 
-final hellowWorldProvider = Provider<String>((ref) => "Hello world");
+final hellowWorldProvider = Provider<String>((ref) => "PVSRA SCREENER");
 
 class MyApp extends StatelessWidget {
  // final Widget child;
@@ -215,6 +215,7 @@ class Record {
 
   //final int votes;
   final DocumentReference? reference;
+
 
   Record.fromMap(Map<String, dynamic>? map, {required this.reference})
       : assert(map?['Stock'] != null),
