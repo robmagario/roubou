@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:roubou/component/style.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MyDrawer extends ConsumerWidget {
 
@@ -24,7 +25,13 @@ class MyDrawer extends ConsumerWidget {
             ),
           ),
           ListTile(
-            leading: Icon(FontAwesome5.building),
+          leading: Icon(FontAwesomeIcons.balanceScale),
+          title: Text('200EMA'),
+          onTap: () {
+          Navigator.pushNamed(context, '/myHomePage');
+          },),
+          ListTile(
+            leading: FaIcon(FontAwesomeIcons.dragon),
             title: Text('Dragon 50EMA'),
             onTap: () {
               Navigator.pushNamed(context, '/dragon');
