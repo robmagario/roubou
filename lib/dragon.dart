@@ -27,7 +27,9 @@ class _DragonState extends State<Dragon> {
 
   Widget _buildBody(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('50ema').snapshots(),
+      stream: FirebaseFirestore.instance.collection('50ema')
+        .orderBy('currentDate', descending: true).limit(1)
+        .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
 
@@ -78,10 +80,10 @@ class Record {
   final DocumentReference? reference;
 
   Record.fromMap(Map<String, dynamic>? map, {this.reference})
-      : assert(map?['Stock'] != null),
+      : assert(map?['stock'] != null),
         assert(map?['companyName'] != null),
   //  assert(map['votes'] != null),
-        stock = map?['Stock'],
+        stock = map?['stock'],
         companyName = map?['companyName'];
   //  votes = map['votes'];
 

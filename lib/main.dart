@@ -169,7 +169,9 @@ class MyHomePage extends ConsumerWidget {
 
   Widget _buildBody(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('200ema').snapshots(),
+      stream: FirebaseFirestore.instance.collection('200ema')
+          .where('currentDate', isLessThanOrEqualTo: Timestamp.now())
+          .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
           return _buildList(context, snapshot.data?.docs);
@@ -220,10 +222,10 @@ class Record {
 
 
   Record.fromMap(Map<String, dynamic>? map, {required this.reference})
-      : assert(map?['Stock'] != null),
+      : assert(map?['stock'] != null),
         assert(map?['companyName'] != null),
   //  assert(map['votes'] != null),
-        stock = map?['Stock'],
+        stock = map?['stock'],
         companyName = map?['companyName'];
   //  votes = map['votes'];
 
