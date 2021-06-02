@@ -33,6 +33,7 @@ class _DragonState extends State<Dragon> {
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance.collection('50ema')
           .where('currentDate', isGreaterThanOrEqualTo: threedaysAgo)
+          .orderBy('currentDate', descending: true)
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
