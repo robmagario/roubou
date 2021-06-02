@@ -168,9 +168,13 @@ class MyHomePage extends ConsumerWidget {
   }
 
   Widget _buildBody(BuildContext context) {
+    var today = new DateTime.now();
+    DateTime threedaysAgo = today.subtract(const Duration(days: 3));
+
+
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance.collection('200ema')
-          .where('currentDate', isLessThanOrEqualTo: Timestamp.now())
+          .where('currentDate', isGreaterThanOrEqualTo: threedaysAgo)
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
