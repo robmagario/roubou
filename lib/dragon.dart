@@ -5,7 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:roubou/screen/setting/themes.dart';
 import 'package:roubou/my_drawer.dart';
-
+import 'package:timeago/timeago.dart' as timeago;
 
 class Dragon extends StatefulWidget {
   //Dragon({Key key, this.title}) : super(key: key);
@@ -62,7 +62,7 @@ class _DragonState extends State<Dragon> {
         ),
         child: ListTile(
           title: Text(record.stock),
-          subtitle: Text(record.currentDate.toDate().toString()),
+          subtitle: Text(timeago.format(record.currentDate.toDate())),
           trailing: Text(record.companyName.toString()),
           onTap: () => FirebaseFirestore.instance.runTransaction((transaction) async {
            // final freshSnapshot = await transaction.get(record.reference);
