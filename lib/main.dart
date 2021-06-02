@@ -7,6 +7,7 @@ import 'package:roubou/screen/setting/themes.dart';
 import 'package:roubou/my_drawer.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:roubou/dragon.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 /// Run first apps open
 void main() async {
@@ -175,6 +176,7 @@ class MyHomePage extends ConsumerWidget {
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance.collection('200ema')
           .where('currentDate', isGreaterThanOrEqualTo: threedaysAgo)
+          .orderBy('currentDate', descending: true)
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
@@ -203,6 +205,7 @@ class MyHomePage extends ConsumerWidget {
         ),
         child: ListTile(
           title: Text(record.stock),
+          subtitle: Text(timeago.format(record.currentDate.toDate())),
           trailing: Text(record.companyName.toString()),
           onTap: () => FirebaseFirestore.instance.runTransaction((transaction) async {
           //  final freshSnapshot = await transaction.get(record.reference);
@@ -220,6 +223,7 @@ class MyHomePage extends ConsumerWidget {
 class Record {
   final String stock;
   final String companyName;
+  final Timestamp currentDate;
 
   //final int votes;
   final DocumentReference? reference;
@@ -228,9 +232,13 @@ class Record {
   Record.fromMap(Map<String, dynamic>? map, {required this.reference})
       : assert(map?['stock'] != null),
         assert(map?['companyName'] != null),
+        assert(map?['currentDate'] != null),
+
   //  assert(map['votes'] != null),
         stock = map?['stock'],
-        companyName = map?['companyName'];
+        companyName = map?['companyName'],
+        currentDate = map?['currentDate'];
+
   //  votes = map['votes'];
 
   Record.fromSnapshot(DocumentSnapshot? snapshot)
