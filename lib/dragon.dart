@@ -15,6 +15,7 @@ class Dragon extends StatefulWidget {
   _DragonState createState() => _DragonState();
 }
 
+
 class _DragonState extends State<Dragon> {
   @override
   Widget build(BuildContext context) {
@@ -60,7 +61,8 @@ class _DragonState extends State<Dragon> {
           borderRadius: BorderRadius.circular(5.0),
         ),
         child: ListTile(
-          title: Text(record.stock + record.currentDate.toString()),
+          title: Text(record.stock),
+          subtitle: Text(record.currentDate.toDate().toString()),
           trailing: Text(record.companyName.toString()),
           onTap: () => FirebaseFirestore.instance.runTransaction((transaction) async {
            // final freshSnapshot = await transaction.get(record.reference);
@@ -96,4 +98,7 @@ class Record {
 
   Record.fromSnapshot(DocumentSnapshot? snapshot)
       : this.fromMap(snapshot?.data(), reference: snapshot?.reference);
+
+
 }
+
