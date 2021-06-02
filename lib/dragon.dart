@@ -28,6 +28,7 @@ class _DragonState extends State<Dragon> {
   Widget _buildBody(BuildContext context) {
     var today = new DateTime.now();
     DateTime threedaysAgo = today.subtract(const Duration(days: 3));
+
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance.collection('50ema')
           .where('currentDate', isGreaterThanOrEqualTo: threedaysAgo)
@@ -59,7 +60,7 @@ class _DragonState extends State<Dragon> {
           borderRadius: BorderRadius.circular(5.0),
         ),
         child: ListTile(
-          title: Text(record.stock),
+          title: Text(record.stock + record.currentDate.toString()),
           trailing: Text(record.companyName.toString()),
           onTap: () => FirebaseFirestore.instance.runTransaction((transaction) async {
            // final freshSnapshot = await transaction.get(record.reference);
@@ -77,6 +78,7 @@ class _DragonState extends State<Dragon> {
 class Record {
   final String stock;
   final String companyName;
+  final Timestamp currentDate;
 
   //final int votes;
   final DocumentReference? reference;
@@ -84,9 +86,12 @@ class Record {
   Record.fromMap(Map<String, dynamic>? map, {this.reference})
       : assert(map?['stock'] != null),
         assert(map?['companyName'] != null),
+        assert(map?['currentDate'] != null),
+
   //  assert(map['votes'] != null),
         stock = map?['stock'],
-        companyName = map?['companyName'];
+        companyName = map?['companyName'],
+        currentDate = map?['currentDate'];
   //  votes = map['votes'];
 
   Record.fromSnapshot(DocumentSnapshot? snapshot)
