@@ -26,10 +26,12 @@ class _DragonState extends State<Dragon> {
   }
 
   Widget _buildBody(BuildContext context) {
+    var today = new DateTime.now();
+    DateTime threedaysAgo = today.subtract(const Duration(days: 3));
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance.collection('50ema')
-        .orderBy('currentDate', descending: true).limit(1)
-        .snapshots(),
+          .where('currentDate', isGreaterThanOrEqualTo: threedaysAgo)
+          .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
 
