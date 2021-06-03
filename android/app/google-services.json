@@ -8,17 +8,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:856734706427:android:9710b057e5d9703ccf9e5e",
+        "mobilesdk_app_id": "1:856734706427:android:84e77c291c8a68e3cf9e5e",
         "android_client_info": {
-          "package_name": "com.example.roubou"
+          "package_name": "com.magario.roubou"
         }
       },
       "oauth_client": [
         {
-          "client_id": "856734706427-hiotdokq9iuhfoq12kmokarkgmr61vq9.apps.googleusercontent.com",
+          "client_id": "856734706427-lgg32uaciuavjifahti0c1ta88rre310.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.roubou",
+            "package_name": "com.magario.roubou",
             "certificate_hash": "bafb6580404dbcb344588cf402f819df6bb136df"
           }
         },
@@ -38,6 +38,13 @@
             {
               "client_id": "856734706427-8skp4vpqrvjiau0aqcui0e10h2egnatv.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "856734706427-ilvd6aj53ko668smuqbv3jddti14vkbu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.roubou"
+              }
             }
           ]
         }
