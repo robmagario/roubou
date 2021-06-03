@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>856734706427-ilvd6aj53ko668smuqbv3jddti14vkbu.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.856734706427-ilvd6aj53ko668smuqbv3jddti14vkbu</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>856734706427-hiotdokq9iuhfoq12kmokarkgmr61vq9.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDkVeF9l_KxdxpC1w4mddffzXE5aphUpMk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>856734706427</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.roubou</string>
+	<key>PROJECT_ID</key>
+	<string>roubou-145b1</string>
+	<key>STORAGE_BUCKET</key>
+	<string>roubou-145b1.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:856734706427:ios:b9c86fbf9bdbecf1cf9e5e</string>
+	<key>DATABASE_URL</key>
+	<string>https://roubou-145b1-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>
