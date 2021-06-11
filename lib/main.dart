@@ -17,14 +17,11 @@ import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 /// Run first apps open
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-    // For play billing library 2.0 on Android, it is mandatory to call
-    // [enablePendingPurchases](https://developer.android.com/reference/com/android/billingclient/api/BillingClient.Builder.html#enablependingpurchases)
-    // as part of initializing the app.
-   InAppPurchaseAndroidPlatformAddition.enablePendingPurchases();
+   //InAppPurchaseAndroidPlatformAddition.enablePendingPurchases();
 
   await Firebase.initializeApp();
 
-  runApp(ProviderScope(child: _MyApp()),
+  runApp(ProviderScope(child: MyApp()),
   );
 }
 
@@ -256,7 +253,7 @@ class Record {
       : this.fromMap(snapshot?.data(), reference: snapshot?.reference);
 }
 
-const bool _kAutoConsume = true;
+/*const bool _kAutoConsume = true;
 const String _konemonthSubscriptionId = 'subscription_onemonth';
 const String _ksixmonthSubscriptionId = 'subscription_sixmonth';
 const List<String> _kProductIds = <String>[
@@ -276,7 +273,6 @@ class _MyAppState extends State<_MyApp> {
   List<String> _notFoundIds = [];
   List<ProductDetails> _products = [];
   List<PurchaseDetails> _purchases = [];
-
   //List<String> _consumables = [];
   bool _isAvailable = false;
   bool _purchasePending = false;
@@ -371,6 +367,7 @@ class _MyAppState extends State<_MyApp> {
             _buildConnectionCheckTile(),
             _buildProductList(),
             //_buildConsumableBox(),
+            _buildRestoreButton(),
           ],
         ),
       );
@@ -397,8 +394,20 @@ class _MyAppState extends State<_MyApp> {
 
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Test'),
+        appBar: AppBar(backgroundColor: Colors.lightBlueAccent,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Image.asset(
+                'assets/image/logo2.png',
+                fit: BoxFit.contain,
+                height: 32,
+              ),
+              Container(
+                  padding: const EdgeInsets.all(8.0), child: Text('Subscription', style: TextStyle(color: Colors.black),))
+            ],
+
+          ),
         ),
         body: Stack(
           children: stack,
@@ -575,7 +584,31 @@ class _MyAppState extends State<_MyApp> {
     });
   }*/
 
-  void showPendingUI() {
+  Widget _buildRestoreButton() {
+    if (_loading) {
+      return Container();
+    }
+
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          TextButton(
+            child: Text('Restore purchases'),
+            style: TextButton.styleFrom(
+              backgroundColor: Theme.of(context).primaryColor,
+              primary: Colors.white,
+            ),
+            onPressed: () => _inAppPurchase.restorePurchases(),
+          ),
+        ],
+      ),
+    );
+  }
+
+    void showPendingUI() {
     setState(() {
       _purchasePending = true;
     });
@@ -621,15 +654,15 @@ class _MyAppState extends State<_MyApp> {
       } else {
         if (purchaseDetails.status == PurchaseStatus.error) {
           handleError(purchaseDetails.error!);
-        } else if (purchaseDetails.status == PurchaseStatus.purchased) {
+        } /*else if (purchaseDetails.status == PurchaseStatus.purchased) {
           bool valid = await _verifyPurchase(purchaseDetails);
-          /*if (valid) {
+          if (valid) {
             deliverProduct(purchaseDetails);
           } else {
             _handleInvalidPurchase(purchaseDetails);
             return;
-          }*/
-        }
+          }
+        }*/
         if (Platform.isAndroid) {
           /*if (!_kAutoConsume && purchaseDetails.productID == _kConsumableId) {
             final InAppPurchaseAndroidPlatformAddition androidAddition =
@@ -666,4 +699,4 @@ class _MyAppState extends State<_MyApp> {
     }
     return oldSubscription;
   }
-}
+}*/
