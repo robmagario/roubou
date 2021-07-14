@@ -37,6 +37,7 @@ dependencies:
   timeago: ^3.0.2
   provider: ^5.0.0
   in_app_purchase: ^1.0.2
+  google_mobile_ads: ^0.13.2
 
 dev_dependencies:
   flutter_test:
