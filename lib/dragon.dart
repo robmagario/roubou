@@ -3,20 +3,61 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+//import 'package:provider/provider.dart';
 import 'package:roubou/screen/setting/themes.dart';
 import 'package:roubou/my_drawer.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+
+import 'main.dart';
+import 'screen/ad_state.dart';
+
+
 
 class Dragon extends StatefulWidget {
   //Dragon({Key key, this.title}) : super(key: key);
  // final String title;
-
+  late final List<DocumentSnapshot> stocks;
   @override
   _DragonState createState() => _DragonState();
 }
 
 
 class _DragonState extends State<Dragon> {
+  late List<Object> stockWithAds;
+
+  @override
+  void initState() {
+    super.initState();
+    stockWithAds = List.from(widget.stocks);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final adState = context.read(adStateProvider);
+    adState.initialization.then((value) {
+      insertAdsToStocksList(adState);
+    });
+  }
+
+  void insertAdsToStocksList(AdState adState) {
+    setState(() {
+      for (var i = stockWithAds.length - 5; i >= 1; i -= 10) {
+        stockWithAds.insert(
+          i,
+          BannerAd(
+            size: AdSize.banner,
+            adUnitId: adState.bannerAdUnitId,
+            listener: adState.adListener,
+            request: AdRequest(),
+          )..load(),
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,4 +1,4 @@
-package com.example.roubou
+package com.magario.roubou
 
 import io.flutter.embedding.android.FlutterActivity
 

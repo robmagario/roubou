@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:roubou/screen/ad_state.dart';
 import 'package:roubou/screen/setting/themes.dart';
 import 'package:roubou/my_drawer.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,16 +13,24 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:in_app_purchase_android/billing_client_wrappers.dart';
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
+// The value here will be overridden in main
+final adStateProvider = ScopedProvider<AdState>(null);
 
 /// Run first apps open
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final initFuture = MobileAds.instance.initialize();
+  final adState = AdState(initFuture);
    //InAppPurchaseAndroidPlatformAddition.enablePendingPurchases();
 
   await Firebase.initializeApp();
 
-  runApp(ProviderScope(child: MyApp()),
+  runApp(
+      ProviderScope(overrides: [
+    adStateProvider.overrideWithValue(adState),],child: MyApp()
+    ),
   );
 }
 
