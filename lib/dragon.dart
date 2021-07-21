@@ -4,12 +4,13 @@ import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:roubou/screen/ad_state.dart';
 //import 'package:provider/provider.dart';
 import 'package:roubou/screen/setting/themes.dart';
 import 'package:roubou/my_drawer.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-
+import 'dart:io';
 import 'main.dart';
 import 'screen/ad_state.dart';
 
@@ -18,14 +19,13 @@ import 'screen/ad_state.dart';
 class Dragon extends StatefulWidget {
   //Dragon({Key key, this.title}) : super(key: key);
  // final String title;
-  late final List<DocumentSnapshot> stocks;
-  @override
+
   _DragonState createState() => _DragonState();
 }
 
 
 class _DragonState extends State<Dragon> {
-  late List<Object> stockWithAds;
+  /*late List<Object> stockWithAds;
 
   @override
   void initState() {
@@ -56,6 +56,31 @@ class _DragonState extends State<Dragon> {
         );
       }
     });
+  }*/
+  late BannerAd _bannerAd;
+  bool _isBannerAdReady = false;
+  @override
+  void initState() {
+    super.initState();
+    _bannerAd = BannerAd(
+      adUnitId: AdState.bannerAdUnitId,
+      request: AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          setState(() {
+            _isBannerAdReady = true;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          print('Failed to load a banner ad: ${err.message}');
+          _isBannerAdReady = false;
+          ad.dispose();
+        },
+      ),
+    );
+
+    _bannerAd.load();
   }
 
   @override
@@ -71,7 +96,15 @@ class _DragonState extends State<Dragon> {
     var today = new DateTime.now();
     DateTime threedaysAgo = today.subtract(const Duration(days: 3));
 
-    return StreamBuilder<QuerySnapshot>(
+    return
+      Column(
+          children: [
+            Container(
+                    height: 50,
+                    width: 320,
+                    child: AdWidget(ad: _bannerAd,)),
+    Expanded(
+      child: StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance.collection('50ema')
           .where('currentDate', isGreaterThanOrEqualTo: threedaysAgo)
           .orderBy('currentDate', descending: true)
@@ -81,6 +114,9 @@ class _DragonState extends State<Dragon> {
 
         return _buildList(context, snapshot.data?.docs);
       },
+    ),
+    ),
+    ]
     );
   }
 
@@ -117,7 +153,17 @@ class _DragonState extends State<Dragon> {
       ),
     );
   }
-}
+  @override
+  void dispose() {
+    // COMPLETE: Dispose a BannerAd object
+    _bannerAd.dispose();
+    super.dispose();
+  }
+  Future<InitializationStatus> _initGoogleMobileAds() {
+    return MobileAds.instance.initialize();
+  }
+
+  }
 
 class Record {
   final String stock;

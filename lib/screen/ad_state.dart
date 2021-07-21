@@ -3,11 +3,11 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class AdState {
 
-  Future<InitializationStatus> initialization;
+  /*Future<InitializationStatus> initialization;
 
-  AdState(this.initialization);
+  AdState(this.initialization);*/
 
-  String get bannerAdUnitId => Platform.isAndroid
+  static String get bannerAdUnitId => Platform.isAndroid
      ? 'ca-app-pub-8278238314092808/6593023732'
    : 'ca-app-pub-3940256099942544/2934735716';
 
