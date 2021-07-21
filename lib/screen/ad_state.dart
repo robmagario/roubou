@@ -8,7 +8,7 @@ class AdState {
   AdState(this.initialization);
 
   String get bannerAdUnitId => Platform.isAndroid
-     ? 'ca-app-pub-3940256099942544/6300978111'
+     ? 'ca-app-pub-8278238314092808/6593023732'
    : 'ca-app-pub-3940256099942544/2934735716';
 
   BannerAdListener get adListener => _adListener;
@@ -26,6 +26,6 @@ class AdState {
     // Called when an ad removes an overlay that covers the screen.
     onAdClosed: (Ad ad) => print('Ad closed.'),
     // Called when an ad is in the process of leaving the application.
-    onApplicationExit: (Ad ad) => print('Left application.'),
+    //onApplicationExit: (Ad ad) => print('Left application.'),
   );
 }
