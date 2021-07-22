@@ -14,6 +14,8 @@ import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:in_app_purchase_android/billing_client_wrappers.dart';
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'screen/ad_state.dart';
+
 
 // The value here will be overridden in main
 //final adStateProvider = ScopedProvider<AdState>(null);
@@ -29,8 +31,7 @@ void main() async {
   await Firebase.initializeApp();
 
   runApp(
-      ProviderScope(/*overrides: [
-    adStateProvider.overrideWithValue(adState),],*/child: MyApp()
+      ProviderScope(child: MyApp()
     ),
   );
 }
@@ -175,6 +176,21 @@ class _SplashScreenState extends State<SplashScreen> {
 }
 */
 class MyHomePage extends ConsumerWidget {
+  //late BannerAd _bannerAd;
+  //bool _isBannerAdReady = false;
+
+  @override
+  void initState() {
+    //super.initState();
+  }
+    final BannerAd _bannerAd = BannerAd(
+      adUnitId: AdState.bannerAdUnitId,
+      request: AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(),
+    )..load();
+
+
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
@@ -191,16 +207,28 @@ class MyHomePage extends ConsumerWidget {
     DateTime threedaysAgo = today.subtract(const Duration(days: 18));
 
 
-    return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('200ema')
-          .where('currentDate', isGreaterThanOrEqualTo: threedaysAgo)
-          .orderBy('currentDate', descending: true)
-          .snapshots(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) return LinearProgressIndicator();
-          return _buildList(context, snapshot.data?.docs);
-      },
-    );
+    return
+      Column(
+          children: [
+            Container(
+                height: 50,
+                width: 320,
+                child: AdWidget(ad: _bannerAd,)),
+            Expanded(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance.collection('50ema')
+                    .where('currentDate', isGreaterThanOrEqualTo: threedaysAgo)
+                    .orderBy('currentDate', descending: true)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) return LinearProgressIndicator();
+
+                  return _buildList(context, snapshot.data?.docs);
+                },
+              ),
+            ),
+          ]
+      );
   }
 
   Widget _buildList(BuildContext context, List<DocumentSnapshot>? snapshot) {
