@@ -216,7 +216,7 @@ class MyHomePage extends ConsumerWidget {
                 child: AdWidget(ad: _bannerAd,)),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance.collection('50ema')
+                stream: FirebaseFirestore.instance.collection('200ema')
                     .where('currentDate', isGreaterThanOrEqualTo: threedaysAgo)
                     .orderBy('currentDate', descending: true)
                     .snapshots(),
