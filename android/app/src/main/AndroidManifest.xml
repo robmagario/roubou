@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.magario.roubou">
    <application
-        android:label="roubou"
+        android:label="PVSRA Japa Rico"
         android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
