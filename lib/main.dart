@@ -147,6 +147,12 @@ class MyHomePage extends ConsumerWidget {
       ),
     );
   }
+  @override
+  void dispose() {
+    // COMPLETE: Dispose a BannerAd object
+    _bannerAd.dispose();
+    // super.dispose();
+  }
   Future<InitializationStatus> _initGoogleMobileAds() {
     return MobileAds.instance.initialize();
   }

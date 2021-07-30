@@ -5,88 +5,27 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:roubou/screen/ad_state.dart';
-//import 'package:provider/provider.dart';
-import 'package:roubou/screen/setting/themes.dart';
 import 'package:roubou/my_drawer.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'dart:io';
-import 'main.dart';
 import 'screen/ad_state.dart';
 
-
-
-class Dragon extends StatefulWidget {
-  //Dragon({Key key, this.title}) : super(key: key);
- // final String title;
-
-  _DragonState createState() => _DragonState();
-}
-
-
-class _DragonState extends State<Dragon> {
-  /*late List<Object> stockWithAds;
-
+class Dragon extends ConsumerWidget {
   @override
   void initState() {
-    super.initState();
-    stockWithAds = List.from(widget.stocks);
+    //super.initState();
   }
+  final BannerAd _bannerAd = BannerAd(
+    adUnitId: AdState.bannerAdUnitId,
+    request: AdRequest(),
+    size: AdSize.banner,
+    listener: BannerAdListener(),
+  )..load();
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final adState = context.read(adStateProvider);
-    adState.initialization.then((value) {
-      insertAdsToStocksList(adState);
-    });
-  }
-
-  void insertAdsToStocksList(AdState adState) {
-    setState(() {
-      for (var i = stockWithAds.length - 5; i >= 1; i -= 10) {
-        stockWithAds.insert(
-          i,
-          BannerAd(
-            size: AdSize.banner,
-            adUnitId: adState.bannerAdUnitId,
-            listener: adState.adListener,
-            request: AdRequest(),
-          )..load(),
-        );
-      }
-    });
-  }*/
-  late BannerAd _bannerAd;
-  bool _isBannerAdReady = false;
-  @override
-  void initState() {
-    super.initState();
-    _bannerAd = BannerAd(
-      adUnitId: AdState.bannerAdUnitId,
-      request: AdRequest(),
-      size: AdSize.banner,
-      listener: BannerAdListener(
-        onAdLoaded: (_) {
-          setState(() {
-            _isBannerAdReady = true;
-          });
-        },
-        onAdFailedToLoad: (ad, err) {
-          print('Failed to load a banner ad: ${err.message}');
-          _isBannerAdReady = false;
-          ad.dispose();
-        },
-      ),
-    );
-
-    _bannerAd.load();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
     return Scaffold(
-      appBar: AppBar(title: Text('PVSRA Stock Screener')),
+      appBar: AppBar(title: Text('Dragon 50EMA')),
       drawer: MyDrawer(),
       body: _buildBody(context),
     );
@@ -157,7 +96,7 @@ class _DragonState extends State<Dragon> {
   void dispose() {
     // COMPLETE: Dispose a BannerAd object
     _bannerAd.dispose();
-    super.dispose();
+   // super.dispose();
   }
   Future<InitializationStatus> _initGoogleMobileAds() {
     return MobileAds.instance.initialize();
