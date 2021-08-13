@@ -44,7 +44,7 @@ class Br200 extends ConsumerWidget {
                 child: AdWidget(ad: _bannerAd,)),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance.collection('50ema')
+                stream: FirebaseFirestore.instance.collection('br200ema')
                     .where('currentDate', isGreaterThanOrEqualTo: threedaysAgo)
                     .orderBy('currentDate', descending: true)
                     .snapshots(),

@@ -44,7 +44,7 @@ class HK50 extends ConsumerWidget {
                 child: AdWidget(ad: _bannerAd,)),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance.collection('50ema')
+                stream: FirebaseFirestore.instance.collection('hk50ema')
                     .where('currentDate', isGreaterThanOrEqualTo: threedaysAgo)
                     .orderBy('currentDate', descending: true)
                     .snapshots(),

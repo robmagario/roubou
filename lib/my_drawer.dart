@@ -54,6 +54,12 @@ class MyDrawer extends ConsumerWidget {
               Navigator.pushNamed(context, '/br50ema');
             },),
           ListTile(
+            leading: Icon(FontAwesomeIcons.moneyCheckAlt),
+            title: Text('Brazil 1000EMA'),
+            onTap: () {
+              Navigator.pushNamed(context, '/br1000ema');
+            },),
+          ListTile(
             leading: Icon(FontAwesomeIcons.commentDollar),
             title: Text('Hong Kong 200EMA'),
             onTap: () {
@@ -63,7 +69,13 @@ class MyDrawer extends ConsumerWidget {
             leading: Icon(FontAwesomeIcons.dollarSign),
             title: Text('Hong Kong 50EMA'),
             onTap: () {
-              Navigator.pushNamed(context, '/br50ema');
+              Navigator.pushNamed(context, '/hk50ema');
+            },),
+          ListTile(
+            leading: Icon(FontAwesomeIcons.moneyBillWave),
+            title: Text('Hong Kong 1000EMA'),
+            onTap: () {
+              Navigator.pushNamed(context, '/hk1000ema');
             },),
         ],
       ),

@@ -10,7 +10,7 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'screen/ad_state.dart';
 
-class HK200 extends ConsumerWidget {
+class HK1000 extends ConsumerWidget {
   @override
   void initState() {
     //super.initState();
@@ -25,7 +25,7 @@ class HK200 extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     return Scaffold(
-      appBar: AppBar(title: Text('Hong Kong 200EMA')),
+      appBar: AppBar(title: Text('Hong Kong 1000EMA')),
       drawer: MyDrawer(),
       body: _buildBody(context),
     );
@@ -44,7 +44,7 @@ class HK200 extends ConsumerWidget {
                 child: AdWidget(ad: _bannerAd,)),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance.collection('hk200ema')
+                stream: FirebaseFirestore.instance.collection('hk1000ema')
                     .where('currentDate', isGreaterThanOrEqualTo: threedaysAgo)
                     .orderBy('currentDate', descending: true)
                     .snapshots(),

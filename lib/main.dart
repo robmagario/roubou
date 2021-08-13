@@ -15,8 +15,10 @@ import 'package:timeago/timeago.dart' as timeago;
 //import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import '1000ema.dart';
+import 'br1000ema.dart';
 import 'br200ema.dart';
 import 'br50ema.dart';
+import 'hk1000ema.dart';
 import 'hk200ema.dart';
 import 'hk50ema.dart';
 import 'screen/ad_state.dart';
@@ -68,8 +70,10 @@ class MyApp extends StatelessWidget {
             "/1000ema": (BuildContext context) => EMA1000(),
             "/br200ema":(BuildContext context) => Br200(),
             "/br50ema":(BuildContext context) => Br50(),
+            "/br1000ema":(BuildContext context) => Br1000(),
             "/hk200ema":(BuildContext context) => HK200(),
             "/hk50ema":(BuildContext context) => HK50(),
+            "/hk1000ema":(BuildContext context) => HK1000(),
           },
         );
       },
