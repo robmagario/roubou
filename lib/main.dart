@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:io';
+//import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -10,10 +10,15 @@ import 'package:roubou/my_drawer.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:roubou/dragon.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import 'package:in_app_purchase/in_app_purchase.dart';
-import 'package:in_app_purchase_android/billing_client_wrappers.dart';
-import 'package:in_app_purchase_android/in_app_purchase_android.dart';
+//import 'package:in_app_purchase/in_app_purchase.dart';
+//import 'package:in_app_purchase_android/billing_client_wrappers.dart';
+//import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import '1000ema.dart';
+import 'br200ema.dart';
+import 'br50ema.dart';
+import 'hk200ema.dart';
+import 'hk50ema.dart';
 import 'screen/ad_state.dart';
 
 /// Run first apps open
@@ -60,6 +65,11 @@ class MyApp extends StatelessWidget {
           routes: <String, WidgetBuilder>{
             "/myHomePage": (BuildContext context) => MyHomePage(),
             "/dragon": (BuildContext context) => Dragon(),
+            "/1000ema": (BuildContext context) => EMA1000(),
+            "/br200ema":(BuildContext context) => Br200(),
+            "/br50ema":(BuildContext context) => Br50(),
+            "/hk200ema":(BuildContext context) => HK200(),
+            "/hk50ema":(BuildContext context) => HK50(),
           },
         );
       },

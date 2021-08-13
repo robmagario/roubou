@@ -1,6 +1,6 @@
-import 'dart:async';
+//import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:roubou/component/style.dart';
+//import 'package:roubou/component/style.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -34,8 +34,37 @@ class MyDrawer extends ConsumerWidget {
             title: Text('Dragon 50EMA'),
             onTap: () {
               Navigator.pushNamed(context, '/dragon');
-            },
-          ),
+            },),
+          ListTile(
+            leading: FaIcon(FontAwesomeIcons.handHoldingUsd),
+            title: Text('1000EMA'),
+            onTap: () {
+              Navigator.pushNamed(context, '/1000ema');
+            },),
+          ListTile(
+            leading: Icon(FontAwesomeIcons.coins),
+            title: Text('Brazil 200EMA'),
+            onTap: () {
+              Navigator.pushNamed(context, '/br200ema');
+            },),
+          ListTile(
+            leading: Icon(FontAwesomeIcons.searchDollar),
+            title: Text('Brazil 50EMA'),
+            onTap: () {
+              Navigator.pushNamed(context, '/br50ema');
+            },),
+          ListTile(
+            leading: Icon(FontAwesomeIcons.commentDollar),
+            title: Text('Hong Kong 200EMA'),
+            onTap: () {
+              Navigator.pushNamed(context, '/hk200ema');
+            },),
+          ListTile(
+            leading: Icon(FontAwesomeIcons.dollarSign),
+            title: Text('Hong Kong 50EMA'),
+            onTap: () {
+              Navigator.pushNamed(context, '/br50ema');
+            },),
         ],
       ),
     );
