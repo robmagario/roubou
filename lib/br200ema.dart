@@ -78,9 +78,9 @@ class Br200 extends ConsumerWidget {
           borderRadius: BorderRadius.circular(5.0),
         ),
         child: ListTile(
-          title: Text(record.stock),
-          subtitle: Text(timeago.format(record.currentDate.toDate())),
-          trailing: Text(record.companyName.toString()),
+          title: Text(record.stock, softWrap: false,),
+          subtitle: Text(timeago.format(record.currentDate.toDate()), softWrap: false,),
+          trailing: SizedBox(width: 200.0, child:Text(record.companyName.toString()),),
           onTap: () => FirebaseFirestore.instance.runTransaction((transaction) async {
             // final freshSnapshot = await transaction.get(record.reference);
             // final fresh = Record.fromSnapshot(freshSnapshot);
