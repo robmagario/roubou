@@ -33,7 +33,7 @@ class HK200 extends ConsumerWidget {
 
   Widget _buildBody(BuildContext context) {
     var today = new DateTime.now();
-    DateTime threedaysAgo = today.subtract(const Duration(days: 3));
+    DateTime threedaysAgo = today.subtract(const Duration(days: 18));
 
     return
       Column(
