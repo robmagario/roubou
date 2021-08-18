@@ -4,15 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:roubou/screen/IAP.dart';
 //import 'package:roubou/screen/ad_state.dart';
 import 'package:roubou/screen/setting/themes.dart';
 import 'package:roubou/my_drawer.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:roubou/dragon.dart';
 import 'package:timeago/timeago.dart' as timeago;
-//import 'package:in_app_purchase/in_app_purchase.dart';
-//import 'package:in_app_purchase_android/billing_client_wrappers.dart';
-//import 'package:in_app_purchase_android/in_app_purchase_android.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:in_app_purchase_android/billing_client_wrappers.dart';
+import 'package:in_app_purchase_android/in_app_purchase_android.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import '1000ema.dart';
 import 'br1000ema.dart';
@@ -28,7 +30,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
-
+  if (defaultTargetPlatform == TargetPlatform.android) {
+  InAppPurchaseAndroidPlatformAddition.enablePendingPurchases();}
   runApp(
       ProviderScope(child: MyApp()
     ),
@@ -68,6 +71,7 @@ class MyApp extends StatelessWidget {
             "/myHomePage": (BuildContext context) => MyHomePage(),
             "/dragon": (BuildContext context) => Dragon(),
             "/1000ema": (BuildContext context) => EMA1000(),
+            "/iap": (BuildContext context) => IAP(),
             "/br200ema":(BuildContext context) => Br200(),
             "/br50ema":(BuildContext context) => Br50(),
             "/br1000ema":(BuildContext context) => Br1000(),

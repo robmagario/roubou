@@ -42,6 +42,12 @@ class MyDrawer extends ConsumerWidget {
               Navigator.pushNamed(context, '/1000ema');
             },),
           ListTile(
+            leading: FaIcon(FontAwesomeIcons.handHoldingUsd),
+            title: Text('Premium'),
+            onTap: () {
+              Navigator.pushNamed(context, '/iap');
+            },),
+          ListTile(
             leading: Icon(FontAwesomeIcons.coins),
             title: Text('Brazil 200EMA'),
             onTap: () {

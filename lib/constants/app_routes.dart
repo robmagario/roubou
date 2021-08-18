@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:roubou/main.dart';
 import 'package:roubou/dragon.dart';
+import 'package:roubou/screen/IAP.dart';
 
 import '../1000ema.dart';
 import '../br1000ema.dart';
@@ -15,6 +16,7 @@ var appRoutes = <String, WidgetBuilder>{
  // '/': (context) => MyApp(),
   '/dragon': (context) => Dragon(),
   '/1000ema': (context) => EMA1000(),
+  '/iap': (context) => IAP(),
   '/br200ema':(context) => Br200(),
   '/br50ema':(context) => Br50(),
   '/br1000ema':(context) => Br1000(),
