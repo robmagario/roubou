@@ -39,6 +39,8 @@ void main() async {
 }
 
 final hellowWorldProvider = Provider<String>((ref) => "PVSRA SCREENER");
+// here the developer will write free or pro
+final mobileAppVersionProvider = Provider<String>((ref) => "free");
 
 class MyApp extends StatelessWidget {
 
