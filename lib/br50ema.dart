@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:roubou/main.dart';
 import 'package:roubou/screen/ad_state.dart';
 import 'package:roubou/my_drawer.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -25,22 +24,11 @@ class Br50 extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    String text = watch(mobileAppVersionProvider);
-    if (text=="free")
-      {
-        return Scaffold(
-          appBar: AppBar(title: Text('Brazil 50EMA')),
-          drawer: MyDrawer(),
-          body: Center(child: Text("Sorry, this is only avaialbe on the pro version!")),
-        );
-      }
-    else {
       return Scaffold(
         appBar: AppBar(title: Text('Brazil 50EMA')),
         drawer: MyDrawer(),
         body: _buildBody(context),
       );
-    }
   }
 
   Widget _buildBody(BuildContext context) {

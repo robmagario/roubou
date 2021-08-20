@@ -9,8 +9,6 @@ import 'package:roubou/my_drawer.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'screen/ad_state.dart';
-import 'package:roubou/main.dart';
-
 
 class HK1000 extends ConsumerWidget {
   @override
@@ -26,23 +24,12 @@ class HK1000 extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    String text = watch(mobileAppVersionProvider);
-    if (text=="free")
-    {
-      return Scaffold(
-        appBar: AppBar(title: Text('HK 1000EMA')),
-        drawer: MyDrawer(),
-        body: Center(child: Text("Sorry, this is only avaialbe on the pro version!")),
-      );
-    }
-    else {
       return Scaffold(
         appBar: AppBar(title: Text('HK 1000EMA')),
         drawer: MyDrawer(),
         body: _buildBody(context),
       );
     }
-  }
 
   Widget _buildBody(BuildContext context) {
     var today = new DateTime.now();
